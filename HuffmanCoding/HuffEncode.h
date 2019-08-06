@@ -1,6 +1,6 @@
+#pragma once
 #ifndef HUFF_H
 #define HUFF_H
-#include "HuffDecode.h"
 #include <vector>
 #include <set>
 #include <map>
@@ -10,10 +10,10 @@ struct Node {
 	std::string key;
 	int freq;
 	int bitfreq;
-	const Node *left, *right;
+	const Node *left, *right,*root;
 
 	Node() {
-		left = right = nullptr;
+		left = right = root=nullptr;
 		
 
 	}
@@ -31,31 +31,31 @@ struct Node {
 		
 	}
 };
+typedef Node* node_ptr;
 
 
 
 
 class HuffEncode {
 public:
-
-	HuffEncode();
-	void startEncoding(std::string);
-	void writeBit(int bit);
-	void writeToFile(unsigned char&);
 	std::map<std::string, std::string> stored_map;
+	HuffEncode();
+	~HuffEncode();
+	void startEncoding(const std::string&);
+	void writeToFile(unsigned char&);
 	void orderedMap(std::string);
 	void writeDict(std::map<std::string, std::string> &stored_map);
-	
-	
+
 	
 
 private:
 	
 	int  bitcount;
 	unsigned char bit_buffer;
+	std::set<Node> nodes_;
 	void build_tree(std::set<Node> &s);
 	void traverse(const Node *node,std::string str, std::map<std::string, std::string> &stored_map);
-	std::set<Node> nodes_;
+	void writeBit(int bit);
 	
 };
 

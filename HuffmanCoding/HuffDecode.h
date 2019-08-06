@@ -1,3 +1,4 @@
+#pragma once
 #ifndef HUFF_D
 #define HUFF_D
 #include "HuffEncode.h"
@@ -8,16 +9,24 @@
 class HuffDecode {
 
 public:
+	//std::vector<unsigned char>text;
+	std::string dec;
+	std::string text;
+	std::map<std::string, std::string> newmap;
+	char acc;
 	HuffDecode();
 	void decode();
-	int readBit();
+	int readBit(std::ifstream &);
 	void readDictFile();
-
-
+	auto returnMap();
+	//std::string findChar(std::string);
+	void readEncodedFile();
+	char findChar(const std::string&);
+	
+	
 
 private:
 	int index;
-	unsigned char acc;
 	int bitcount;
 
 

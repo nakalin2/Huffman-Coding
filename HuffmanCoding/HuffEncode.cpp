@@ -8,16 +8,17 @@
 
 
 
-HuffEncode::HuffEncode() {
-	this->bitcount = 0;
+HuffEncode::HuffEncode() : bitcount(0) {
+	//bitcount = 0;
 	
 	
 }
-void HuffEncode::startEncoding(std::string fname) {
+HuffEncode::~HuffEncode(){}
+
+void HuffEncode::startEncoding(const std::string &fname) {  //read the txt file and find the frequencies
 	char letter;
 
 	std::ifstream file;
-	//std::string line;
 	std::map<std::string, int> m;
 	std::set<Node> initial_nodes;
 
@@ -25,31 +26,23 @@ void HuffEncode::startEncoding(std::string fname) {
 	if (file.is_open()) {
 		while (!file.eof()) {
 			file >> std::noskipws >> letter;
-			m[std::string({letter})]++;
+			m[std::string({ letter })]++;
 		}
-
-			/*while (std::getline(file, line, '\0'))
-				for (auto letter : line) {
-					m[std::string({ letter })]++;
-				}*/
-		
-		for (auto num : m)
-		{
-			std::cout << num.first << " " << num.second << std::endl;
-		}
-		for (auto n : m) {
-			Node temp;
-			temp.key = n.first;
-			temp.freq = n.second;
-			initial_nodes.insert(temp);
-		}
-		build_tree(initial_nodes);
-
-			
 		file.close();
 	}
-	
-	
+
+	for (auto num : m)
+	{
+		std::cout << num.first << " " << num.second << std::endl;
+	}
+	for (auto n : m) {
+		Node temp;
+		temp.key = n.first;
+		temp.freq = n.second;
+		initial_nodes.insert(temp);
+	}
+	build_tree(initial_nodes);
+
 }
 
 void HuffEncode::build_tree(std::set<Node> &s) {
@@ -93,8 +86,18 @@ void HuffEncode::traverse(const Node *node, std::string str, std::map<std::strin
 		return;
 
 	if (!node->left && !node->right) {
-		stored_map[node->key] = str;
+		if (node->key == "\n") {
+			stored_map["\n"] = str;
+
+		}
+		if (node->key == " ") {
+			stored_map[" "] = str;
+		}
+		if(node->key !=" " && node->key !="\n") {
+			stored_map[node->key] = str;
+		}
 	}
+
 
 	traverse(node->left, str + "0", stored_map);
 	traverse(node->right, str + "1", stored_map);
@@ -138,7 +141,6 @@ void HuffEncode::orderedMap(std::string fname) {
 	
 	std::ifstream file;
 	char letter;
-	
 	int bit;
 	char ch;
 	std::string bitfreq;
@@ -148,9 +150,19 @@ void HuffEncode::orderedMap(std::string fname) {
 
 			file >> std::noskipws >> letter;
 
-			stored_map[std::string{letter}];   
-			
-			for (auto b : stored_map) {
+			bitfreq = stored_map[std::string{ letter }];
+
+			for (int i = 0; i < bitfreq.size(); i++) {
+				ch = bitfreq[i];
+				bit = ch - '0';
+				writeBit(bit);
+			}
+		}
+		file.close();
+
+	}
+	////////////////////////////////////////////////////////
+	/*for (auto b : stored_map) {
 				if (std::string{ letter } == b.first) {
 					bitfreq = b.second;
 
@@ -162,29 +174,9 @@ void HuffEncode::orderedMap(std::string fname) {
 					}
 
 				}
-			}
+	}*/
+	//////////////////////////////////////////////////////////
 
-			/*for (auto b : stored_map) {
-				if (std::string{ letter } == b.first) {
-					for (int i = 0; i < b.second.size(); i++) {
-						
-						num = b.second[i];
-						
-						k =num -'0';
-						writeBit(k);
-					}
-
-
-				}
-			}*/
-
-			
-		}
-
-		
-		
-		file.close();
-	}
 	for (auto num : stored_map)
 	{
 		std::cout << num.first << " " << num.second << std::endl;
@@ -197,15 +189,12 @@ void HuffEncode::orderedMap(std::string fname) {
 void HuffEncode::writeDict(std::map<std::string, std::string> &stored_map) {
 	std::ofstream file;
 
-	file.open("Dictionary.dict");    
+	file.open("The Gunslinger.dict");    
 	
-	for (auto& kv : stored_map) {
-		file << kv.first << " " << kv.second << '\n';
+	for (const auto& kv : stored_map) {
+		file << kv.first << " " << kv.second << std::endl;
 		
 	}
-
-
-
 	file.close();
 
 	

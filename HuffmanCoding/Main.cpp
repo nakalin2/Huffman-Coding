@@ -19,17 +19,21 @@ int main(int argc, char *argv[])
 	//char fname;
 	//std::cin >> fname;
 
+	/////////////decode ve encode etmek için ayrý ayrý komut al (kullanýcýdan)
+	////dosyaya surekli eklenmesini engelle
+
 	std::string fname;
 	std::cout << "Enter a file." << std::endl;
 	getline(std::cin, fname);
 
 
 	HuffEncode h;
-	h.startEncoding(fname);
-	
-	h.orderedMap(fname);
-
-	
+	h.startEncoding(fname);  //// sadece bu fonksiyon public olsun.
+	h.orderedMap(fname);   /////bu dosyayý mainde çaðýrma.
+	HuffDecode d;
+	d.readDictFile();
+	d.readEncodedFile();
+	d.decode();
 	system("pause");
 }
 
