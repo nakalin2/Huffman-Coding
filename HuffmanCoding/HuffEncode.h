@@ -7,7 +7,8 @@
 
 
 struct Node {
-	std::string key;
+	//std::string key;
+	char key;
 	int freq;
 	int bitfreq;
 	const Node *left, *right,*root;
@@ -38,13 +39,13 @@ typedef Node* node_ptr;
 
 class HuffEncode {
 public:
-	std::map<std::string, std::string> stored_map;
+	std::map<char, std::string> stored_map;
 	HuffEncode();
 	~HuffEncode();
 	void startEncoding(const std::string&);
 	void writeToFile(unsigned char&);
 	void orderedMap(std::string);
-	void writeDict(std::map<std::string, std::string> &stored_map);
+	void writeDict(std::map<char, std::string> &stored_map);
 
 	
 
@@ -54,7 +55,7 @@ private:
 	unsigned char bit_buffer;
 	std::set<Node> nodes_;
 	void build_tree(std::set<Node> &s);
-	void traverse(const Node *node,std::string str, std::map<std::string, std::string> &stored_map);
+	void traverse(const Node *node,std::string str, std::map<char, std::string> &stored_map);
 	void writeBit(int bit);
 	
 };

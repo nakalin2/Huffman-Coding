@@ -12,7 +12,7 @@ public:
 	//std::vector<unsigned char>text;
 	std::string dec;
 	std::string text;
-	std::map<std::string, std::string> newmap;
+	std::map<char, std::string> newmap;
 	char acc;
 	HuffDecode();
 	void decode();

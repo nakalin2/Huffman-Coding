@@ -82,41 +82,33 @@ int HuffDecode::readBit(std::ifstream &fname)
 
 void HuffDecode::readDictFile() {
 	std::ifstream file;
-	std::string ch;
+	//std::string ch;
+	char ch;
 	std::string bitnum;
 	std::string line;
 	//std::map<std::string, std::string> newmap;
 	file.open("The Gunslinger.dict");
-	std::stringstream ss(line);
+	/*std::stringstream ss(line);*/
 	if (file.is_open()) {
-		while (getline(file, line)) {
-			//getline(file, line);
-			
-			std::stringstream ss(line);
-			ss >> ch >> bitnum;
-			if (ch == "1111100") {
-				bitnum = ch;
-				ch = '\n';
-				
-				newmap[ch] = bitnum;
+		while (!file.eof()) {
+			getline(file, line);
+			if (line.empty())
+				continue;
+			if (line[0] == ' ' && line[1] != ' ') {
+				newmap['\n'] = line.substr(1, line.size());
 			}
-			
-			if (ch == "110") {
-				bitnum = ch;
-				ch = ' ';
-				
-				newmap[ch] = bitnum;
-			}
-			else {
-				ss >> ch >> bitnum;
-				newmap[ch] = bitnum;
-			}
-
+			newmap[line[0]] = line.substr(2, line.size());
 		}
 		file.close();
 	}
-			
 
+
+	
+
+		
+	
+	
+		
 
 		
 	for (auto k: newmap) {

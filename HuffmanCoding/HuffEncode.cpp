@@ -19,14 +19,14 @@ void HuffEncode::startEncoding(const std::string &fname) {  //read the txt file 
 	char letter;
 
 	std::ifstream file;
-	std::map<std::string, int> m;
+	std::map<char, int> m;
 	std::set<Node> initial_nodes;
 
 	file.open(fname.c_str());
 	if (file.is_open()) {
 		while (!file.eof()) {
 			file >> std::noskipws >> letter;
-			m[std::string({ letter })]++;
+			m[letter]++;
 		}
 		file.close();
 	}
@@ -80,20 +80,20 @@ void HuffEncode::build_tree(std::set<Node> &s) {
 }
 
 
-void HuffEncode::traverse(const Node *node, std::string str, std::map<std::string, std::string> &stored_map) {
+void HuffEncode::traverse(const Node *node, std::string str, std::map<char, std::string> &stored_map) {
 
 	if (node == nullptr)
 		return;
 
 	if (!node->left && !node->right) {
-		if (node->key == "\n") {
-			stored_map["\n"] = str;
+		if (node->key == '\n') {
+			stored_map['\n'] = str;
 
 		}
-		if (node->key == " ") {
-			stored_map[" "] = str;
+		if (node->key ==' ') {
+			stored_map[' '] = str;
 		}
-		if(node->key !=" " && node->key !="\n") {
+		if(node->key !=' ' && node->key !='\n') {
 			stored_map[node->key] = str;
 		}
 	}
@@ -150,7 +150,7 @@ void HuffEncode::orderedMap(std::string fname) {
 
 			file >> std::noskipws >> letter;
 
-			bitfreq = stored_map[std::string{ letter }];
+			bitfreq = stored_map[letter];
 
 			for (int i = 0; i < bitfreq.size(); i++) {
 				ch = bitfreq[i];
@@ -186,7 +186,7 @@ void HuffEncode::orderedMap(std::string fname) {
 	
 }
 
-void HuffEncode::writeDict(std::map<std::string, std::string> &stored_map) {
+void HuffEncode::writeDict(std::map<char, std::string> &stored_map) {
 	std::ofstream file;
 
 	file.open("The Gunslinger.dict");    
