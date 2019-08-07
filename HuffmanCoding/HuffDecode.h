@@ -15,6 +15,7 @@ public:
 	std::map<char, std::string> newmap;
 	char acc;
 	HuffDecode();
+	~HuffDecode();
 	void decode();
 	int readBit(std::ifstream &);
 	void readDictFile();

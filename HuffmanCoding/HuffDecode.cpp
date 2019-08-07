@@ -10,7 +10,14 @@
 
 
 
-HuffDecode::HuffDecode() : bitcount(8){}
+HuffDecode::HuffDecode() {
+	bitcount = 8;
+}
+
+HuffDecode::~HuffDecode() {
+	
+}
+
 
 
 void HuffDecode::decode() {
@@ -82,11 +89,9 @@ int HuffDecode::readBit(std::ifstream &fname)
 
 void HuffDecode::readDictFile() {
 	std::ifstream file;
-	//std::string ch;
 	char ch;
 	std::string bitnum;
 	std::string line;
-	//std::map<std::string, std::string> newmap;
 	file.open("The Gunslinger.dict");
 	/*std::stringstream ss(line);*/
 	if (file.is_open()) {
@@ -102,15 +107,6 @@ void HuffDecode::readDictFile() {
 		file.close();
 	}
 
-
-	
-
-		
-	
-	
-		
-
-		
 	for (auto k: newmap) {
 		std::cout << k.first << "===" << k.second << std::endl;
 	}
